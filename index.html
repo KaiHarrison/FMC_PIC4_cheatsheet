@@ -1,399 +1,308 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>FSE Run Sheet — Hosts & Instructions</title>
-<style>
-  :root{
-    --bg:#0b0c10;
-    --panel:#111217;
-    --muted:#9aa3af;
-    --text:#e5e7eb;
-    --accent:#4f46e5;
-    --accent-2:#22c55e;
-    --card:#151823;
-    --border:#232738;
-    --chip:#1f2433;
-    --danger:#ef4444;
-    --shadow:0 6px 14px rgba(0,0,0,.35),0 2px 6px rgba(0,0,0,.25);
-    --radius:14px;
-  }
-  *{box-sizing:border-box}
-  html,body{margin:0;background:linear-gradient(180deg,#0b0c10 0%,#0a0b12 100%);color:var(--text);font-family:ui-sans-serif,system-ui,Segoe UI,Roboto,Helvetica,Arial;line-height:1.45}
-  .wrap{max-width:1100px;margin:24px auto;padding:0 16px}
-  header{display:flex;flex-wrap:wrap;align-items:center;gap:12px;margin-bottom:16px}
-  header h1{font-size:20px;margin:0;font-weight:700;letter-spacing:.2px}
-  .meta{margin-left:auto;display:flex;gap:10px;flex-wrap:wrap}
-  .chip{background:var(--chip);border:1px solid var(--border);padding:6px 10px;border-radius:999px;font-size:12px;color:var(--muted)}
-  .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 18px}
-  .tab-btn{appearance:none;border:1px solid var(--border);background:var(--panel);color:var(--text);
-    padding:10px 14px;border-radius:10px;cursor:pointer;transition:transform .04s ease,background .2s ease,border-color .2s}
-  .tab-btn[aria-selected="true"]{background:linear-gradient(180deg,#1a1d2a,#141826);border-color:#31364b;box-shadow:var(--shadow)}
-  .tab-btn:active{transform:translateY(1px)}
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FSE Run Sheet · Summary + Ryan + Maria + Kai</title>
+  <style>
+    :root{
+      --bg: #0f1115;           /* dark slate */
+      --panel: #151922;        /* card */
+      --muted: #9aa4b2;        /* text secondary */
+      --text: #e7edf5;         /* text primary */
+      --brand: #5dd3ff;        /* accent */
+      --brand-2:#7ef7d4;       /* accent 2 */
+      --ok:#79e39e;            /* good */
+      --warn:#ffcf6b;          /* warn */
+      --danger:#ff8b8b;        /* danger */
+      --ring: 0 0 0 2px rgba(93,211,255,.35);
+      --radius: 16px;
+    }
+    html,body{height:100%;}
+    body{
+      margin:0; background:linear-gradient(180deg,#0b0d12,#0f1115 15% 85%,#0b0d12);
+      color:var(--text); font:400 16px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
+    }
+    .wrap{max-width:1100px;margin:24px auto;padding:0 16px 40px;}
+    header{position:sticky;top:0;z-index:10;backdrop-filter:saturate(1.1) blur(8px);
+      background:linear-gradient(180deg,rgba(15,17,21,.9),rgba(15,17,21,.6));
+      border-bottom:1px solid rgba(255,255,255,.06)}
+    header .inner{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;gap:14px;align-items:center;}
+    h1{font-size:20px;margin:0 12px 0 0;letter-spacing:.2px}
+    .tag{font-size:12px;color:var(--bg);background:linear-gradient(135deg,var(--brand),var(--brand-2));
+      padding:2px 8px;border-radius:999px;font-weight:700}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap}
+    .tab-btn{background:var(--panel);border:1px solid rgba(255,255,255,.08);color:var(--text);
+      padding:8px 12px;border-radius:12px;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:8px}
+    .tab-btn:hover{transform:translateY(-1px)}
+    .tab-btn.active{background:linear-gradient(180deg,#1a2030,#151922);box-shadow:var(--ring);border-color:transparent}
+    .count{font-size:12px;padding:2px 6px;background:#1f2636;border:1px solid rgba(255,255,255,.08);border-radius:999px;color:var(--muted)}
+    .panel{background:linear-gradient(180deg,#121722,#121520);border:1px solid rgba(255,255,255,.08);
+      border-radius:var(--radius);padding:18px; margin-top:16px}
+    .grid{display:grid;gap:16px}
+    @media(min-width:900px){.grid{grid-template-columns:1.2fr .8fr}}
+    .search{display:flex;gap:10px;align-items:center}
+    .search input{flex:1;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0f1320;color:var(--text)}
+    .search input:focus{outline:none;box-shadow:var(--ring);border-color:transparent}
+    .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#1d2434;border:1px solid rgba(255,255,255,.08);color:var(--muted);font-size:12px}
 
-  .panel{display:none;animation:fade .18s ease}
-  .panel.active{display:block}
-  @keyframes fade{from{opacity:.6;transform:translateY(2px)}to{opacity:1;transform:none}}
+    .steps{counter-reset:step;display:flex;flex-direction:column;gap:10px}
+    .step{display:flex;gap:10px;align-items:flex-start;background:#101522;border:1px dashed rgba(255,255,255,.09);
+      padding:10px 12px;border-radius:12px}
+    .step input{margin-top:4px}
+    .step .num{width:28px;height:28px;border-radius:8px;background:#0e1422;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:var(--brand-2);font-weight:700}
+    .step.done{opacity:.7}
 
-  /* Search + table */
-  .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:8px 0 14px}
-  .input{flex:1;min-width:220px;display:flex;align-items:center;background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:8px 10px;gap:8px}
-  .input input{all:unset;color:var(--text);flex:1}
-  .hint{font-size:12px;color:var(--muted)}
-  table{width:100%;border-collapse:collapse;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
-  th,td{padding:10px 12px;border-bottom:1px dashed #22283a;vertical-align:top}
-  th{background:#141826;text-align:left;font-size:13px;color:#c7cbe4;position:sticky;top:0;z-index:1}
-  tr:last-child td{border-bottom:none}
-  .nowrap{white-space:nowrap}
-  .tag{display:inline-block;background:#1c2438;border:1px solid #2a3552;border-radius:8px;padding:2px 8px;font-size:12px;color:#c9d1ff}
+    table{width:100%;border-collapse:separate;border-spacing:0 8px}
+    thead th{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:0 10px}
+    tbody tr{background:#0e1422;border:1px solid rgba(255,255,255,.08)}
+    tbody tr td{padding:10px;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)}
+    tbody tr td:first-child{border-left:1px solid rgba(255,255,255,.08);border-top-left-radius:12px;border-bottom-left-radius:12px}
+    tbody tr td:last-child{border-right:1px solid rgba(255,255,255,.08);border-top-right-radius:12px;border-bottom-right-radius:12px}
+    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace}
+    .chip{font-size:12px;padding:2px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:#151b2a;color:var(--text)}
+    .muted{color:var(--muted)}
+    .note{font-size:13px;color:var(--muted)}
 
-  /* Cards */
-  .grid{display:grid;grid-template-columns:repeat(1,minmax(0,1fr));gap:14px}
-  @media (min-width:640px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-  @media (min-width:980px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
-  .card{background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)}
-  .card h3{margin:0 0 6px 0;font-size:15px;letter-spacing:.2px}
-  .kv{display:grid;grid-template-columns:110px 1fr;gap:4px 10px;font-size:13px}
-  .kv div{padding:3px 0;color:var(--muted)}
-  .kv div:nth-child(2n){color:var(--text)}
-  .row{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
-  .pill{background:#1a2335;border:1px solid #2b3653;border-radius:999px;padding:5px 10px;font-size:12px;color:#cdd4ff}
-  .copy{cursor:pointer;border:1px dashed #2f3a57;border-radius:8px;padding:3px 8px;font-size:12px;color:#aab3d1}
-  .copy:hover{border-style:solid;color:#e5e9ff}
+    /* Responsive table */
+    @media(max-width:800px){
+      thead{display:none}
+      tbody tr{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px}
+      tbody tr td{border:0;padding:2px 0}
+      tbody tr td[data-label]{position:relative;padding-left:0}
+      tbody tr td[data-label]::before{content:attr(data-label);display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+    }
 
-  /* Instructions */
-  details.instructions{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:12px}
-  details[open]{box-shadow:var(--shadow)}
-  summary{cursor:pointer;list-style:none;font-weight:700;display:flex;align-items:center;gap:8px}
-  summary::-webkit-details-marker{display:none}
-  .steps{margin:10px 0 0 0;padding-left:18px}
-  .steps li{margin-bottom:6px}
-  .kbd{font-family:ui-monospace,Consolas,Menlo,monospace;background:#0f1220;border:1px solid #28304d;color:#dbe3ff;border-radius:6px;padding:0 6px;font-size:12px}
-  .callout{margin-top:10px;background:#162033;border:1px solid #28324a;border-radius:10px;padding:10px;font-size:13px;color:#c5d0ee}
-
-  .foot{margin:18px 0 10px;color:var(--muted);font-size:12px;text-align:center}
-  .divider{height:1px;background:linear-gradient(90deg,transparent,#27304a,transparent);margin:12px 0}
-  .ok{color:var(--accent-2);font-weight:700}
-</style>
+    .kbd{font:600 12px/1 ui-monospace, SFMono-Regular, Menlo, Consolas; padding:3px 6px;border-radius:6px;border:1px solid rgba(255,255,255,.12);background:#0f1422}
+    .toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#121a2a;border:1px solid rgba(255,255,255,.12);padding:10px 14px;border-radius:999px;opacity:0;transition:.2s}
+    .toast.show{opacity:1}
+  </style>
 </head>
 <body>
-<div class="wrap">
   <header>
-    <h1>FSE Run Sheet — PIC iX Host Upgrades</h1>
-    <div class="meta">
-      <span class="chip">Static HTML</span>
-      <span class="chip">Responsive</span>
-      <span class="chip">Tap to copy</span>
+    <div class="inner">
+      <h1>FSE Run Sheet</h1>
+      <span class="tag">PIC iX Host Upgrade</span>
+      <div class="tabs" id="tabs"></div>
     </div>
   </header>
 
-  <nav class="tabs" role="tablist" aria-label="Sections">
-    <button class="tab-btn" role="tab" aria-selected="true" aria-controls="panel-summary" id="tab-summary">Summary</button>
-    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-ryan" id="tab-ryan">Ryan</button>
-    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-maria" id="tab-maria">Maria</button>
-    <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-kai" id="tab-kai">Kai</button>
-  </nav>
-
-  <!-- SUMMARY -->
-  <section class="panel active" id="panel-summary" role="tabpanel" aria-labelledby="tab-summary">
-    <div class="toolbar">
-      <div class="input">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M21 21l-4.3-4.3M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="#8b95b3" stroke-width="2" stroke-linecap="round"/></svg>
-        <input id="search" placeholder="Search by host, ward, level, IP, VLAN, FSE, printer…" />
-      </div>
-      <span class="hint">Sort by clicking headers • Shift+click for multi-sort</span>
-    </div>
-    <div style="overflow:auto;border-radius:12px">
-      <table id="host-table">
-        <thead>
-          <tr>
-            <th data-key="FSE">FSE</th>
-            <th data-key="Level" class="nowrap">Building Lvl</th>
-            <th data-key="Host" class="nowrap">Host Name</th>
-            <th data-key="IP" class="nowrap">IP Address</th>
-            <th data-key="Subnet" class="nowrap">Subnet Mask</th>
-            <th data-key="GW" class="nowrap">Gateway</th>
-            <th data-key="VLAN" class="nowrap">VLAN</th>
-            <th data-key="DNS1" class="nowrap">Primary DNS</th>
-            <th data-key="DNS2" class="nowrap">Secondary DNS</th>
-            <th data-key="Printer" class="nowrap">Printer Name</th>
-            <th data-key="PrinterIP" class="nowrap">Printer IP</th>
-          </tr>
-        </thead>
-        <tbody id="host-tbody"></tbody>
-      </table>
-    </div>
-
-    <div class="divider"></div>
-    <div class="grid" id="rollup">
-      <!-- Roll-up cards will be injected -->
-    </div>
-    <p class="foot">Tip: Tap any <span class="kbd">Host</span> or <span class="kbd">IP</span> in cards to copy. Same instructions apply to all hosts.</p>
-  </section>
-
-  <!-- RYAN -->
-  <section class="panel" id="panel-ryan" role="tabpanel" aria-labelledby="tab-ryan">
-    <details class="instructions" open>
-      <summary>Standard Upgrade Instructions (apply to every host)</summary>
-      <ol class="steps">
-        <li>Speak with ward staff, confirm downtime approval to begin.</li>
-        <li>Open <span class="kbd">System Config → Control Panel</span>; photograph existing printer name + IP.</li>
-        <li>Insert <strong>Media Kit</strong> into rear USB.</li>
-        <li>Reboot PC (<span class="kbd">Alt</span>+<span class="kbd">F4</span>).</li>
-        <li>During boot press <span class="kbd">F9</span> → select USB Media Kit.</li>
-        <li>Confirm warning dialogs ×2 → install starts (~20 min). PC may reboot multiple times.</li>
-        <li>When Windows taskbar appears you may remove Media Kit and move to next PC.</li>
-        <li>At <strong>PIC iX Setup</strong>: set Hostname & IP (per label), Subnet <span class="kbd">255.255.248.0</span>, DNS1 <span class="kbd">172.31.3.1</span>, DNS2 <span class="kbd">172.31.3.2</span>, Advanced → domain <span class="kbd">intellivue.net</span>. Reboot after changes.</li>
-        <li>Control Panel → Install printer(s): same name & IP as before, <strong>HP PCL</strong> driver, paper <strong>A4</strong>.</li>
-        <li>Run <strong>PIC iX Setup</strong>:</li>
-        <ul>
-          <li>Regional: <strong>English (Australia)</strong></li>
-          <li>Install Product Databases (wait 2 min)</li>
-          <li>Config Server: <strong>Other Host → SFMCPRIMARY</strong></li>
-          <li>Password: <span class="kbd">WCX3TCg)</span></li>
-          <li>Credentials when prompted: user <span class="kbd">philipsfieldengr</span> / pass <span class="kbd">FE+Sup42p0rt!</span></li>
-          <li>Request Encryption Configuration (auto)</li>
-          <li>Licensing/topology: leave as-is (hostname must be correct)</li>
-          <li>Test speaker functionality → confirm</li>
-        </ul>
-        <li>Proceed Next → Host Qualification (confirm no failures).</li>
-        <li>Next → <strong>Start Patient Monitoring Services</strong> → reboot.</li>
-        <li>System should auto-start and connect to monitors. Verify.</li>
-      </ol>
-      <div class="callout">Note: If any step fails, capture screenshots, retain logs, and record exact host + time. Revert only after consulting lead.</div>
-    </details>
-    <div class="divider"></div>
-    <div class="grid" id="grid-ryan"></div>
-  </section>
-
-  <!-- MARIA -->
-  <section class="panel" id="panel-maria" role="tabpanel" aria-labelledby="tab-maria">
-    <details class="instructions" open>
-      <summary>Standard Upgrade Instructions (apply to every host)</summary>
-      <ol class="steps">
-        <li>Speak with ward staff, confirm downtime approval to begin.</li>
-        <li>Open <span class="kbd">System Config → Control Panel</span>; photograph existing printer name + IP.</li>
-        <li>Insert <strong>Media Kit</strong> into rear USB.</li>
-        <li>Reboot PC (<span class="kbd">Alt</span>+<span class="kbd">F4</span>).</li>
-        <li>During boot press <span class="kbd">F9</span> → select USB Media Kit.</li>
-        <li>Confirm warning dialogs ×2 → install starts (~20 min). PC may reboot multiple times.</li>
-        <li>When Windows taskbar appears you may remove Media Kit and move to next PC.</li>
-        <li>At <strong>PIC iX Setup</strong>: set Hostname & IP (per label), Subnet <span class="kbd">255.255.248.0</span>, DNS1 <span class="kbd">172.31.3.1</span>, DNS2 <span class="kbd">172.31.3.2</span>, Advanced → domain <span class="kbd">intellivue.net</span>. Reboot after changes.</li>
-        <li>Control Panel → Install printer(s): same name & IP as before, <strong>HP PCL</strong> driver, paper <strong>A4</strong>.</li>
-        <li>Run <strong>PIC iX Setup</strong>:</li>
-        <ul>
-          <li>Regional: <strong>English (Australia)</strong></li>
-          <li>Install Product Databases (wait 2 min)</li>
-          <li>Config Server: <strong>Other Host → SFMCPRIMARY</strong></li>
-          <li>Password: <span class="kbd">WCX3TCg)</span></li>
-          <li>Credentials when prompted: user <span class="kbd">philipsfieldengr</span> / pass <span class="kbd">FE+Sup42p0rt!</span></li>
-          <li>Request Encryption Configuration (auto)</li>
-          <li>Licensing/topology: leave as-is (hostname must be correct)</li>
-          <li>Test speaker functionality → confirm</li>
-        </ul>
-        <li>Proceed Next → Host Qualification (confirm no failures).</li>
-        <li>Next → <strong>Start Patient Monitoring Services</strong> → reboot.</li>
-        <li>System should auto-start and connect to monitors. Verify.</li>
-      </ol>
-      <div class="callout">Note: If any step fails, capture screenshots, retain logs, and record exact host + time. Revert only after consulting lead.</div>
-    </details>
-    <div class="divider"></div>
-    <div class="grid" id="grid-maria"></div>
-  </section>
-
-  <!-- KAI -->
-  <section class="panel" id="panel-kai" role="tabpanel" aria-labelledby="tab-kai">
-    <details class="instructions" open>
-      <summary>Standard Upgrade Instructions (apply to every host)</summary>
-      <ol class="steps">
-        <li>Speak with ward staff, confirm downtime approval to begin.</li>
-        <li>Open <span class="kbd">System Config → Control Panel</span>; photograph existing printer name + IP.</li>
-        <li>Insert <strong>Media Kit</strong> into rear USB.</li>
-        <li>Reboot PC (<span class="kbd">Alt</span>+<span class="kbd">F4</span>).</li>
-        <li>During boot press <span class="kbd">F9</span> → select USB Media Kit.</li>
-        <li>Confirm warning dialogs ×2 → install starts (~20 min). PC may reboot multiple times.</li>
-        <li>When Windows taskbar appears you may remove Media Kit and move to next PC.</li>
-        <li>At <strong>PIC iX Setup</strong>: set Hostname & IP (per label), Subnet <span class="kbd">255.255.248.0</span>, DNS1 <span class="kbd">172.31.3.1</span>, DNS2 <span class="kbd">172.31.3.2</span>, Advanced → domain <span class="kbd">intellivue.net</span>. Reboot after changes.</li>
-        <li>Control Panel → Install printer(s): same name & IP as before, <strong>HP PCL</strong> driver, paper <strong>A4</strong>.</li>
-        <li>Run <strong>PIC iX Setup</strong>:</li>
-        <ul>
-          <li>Regional: <strong>English (Australia)</strong></li>
-          <li>Install Product Databases (wait 2 min)</li>
-          <li>Config Server: <strong>Other Host → SFMCPRIMARY</strong></li>
-          <li>Password: <span class="kbd">WCX3TCg)</span></li>
-          <li>Credentials when prompted: user <span class="kbd">philipsfieldengr</span> / pass <span class="kbd">FE+Sup42p0rt!</span></li>
-          <li>Request Encryption Configuration (auto)</li>
-          <li>Licensing/topology: leave as-is (hostname must be correct)</li>
-          <li>Test speaker functionality → confirm</li>
-        </ul>
-        <li>Proceed Next → Host Qualification (confirm no failures).</li>
-        <li>Next → <strong>Start Patient Monitoring Services</strong> → reboot.</li>
-        <li>System should auto-start and connect to monitors. Verify.</li>
-      </ol>
-      <div class="callout">Note: If any step fails, capture screenshots, retain logs, and record exact host + time. Revert only after consulting lead.</div>
-    </details>
-    <div class="divider"></div>
-    <div class="grid" id="grid-kai"></div>
-  </section>
-
-  <p class="foot">Built for fast ward execution • Minimal taps • Offline-friendly • No external libs</p>
-</div>
-
-<script>
-/** ---------- Data (single source of truth) ---------- **/
-const HOSTS = [
-  {FSE:"Ryan", Level:"Level 6", Host:"SFMCCCUSurv1", IP:"172.31.11.32", Subnet:"255.255.248.0", GW:"172.31.8.1", VLAN:"102", DNS1:"172.31.3.1", DNS2:"172.31.3.2", Printer:"CCUprinter", PrinterIP:"172.31.11.99"},
-  {FSE:"Ryan", Level:"Level 6", Host:"SFMC6DCSurv1", IP:"172.31.11.33", Subnet:"255.255.248.0", GW:"172.31.8.1", VLAN:"102", DNS1:"172.31.3.1", DNS2:"172.31.3.2", Printer:"6DCprinter", PrinterIP:"172.31.11.98"},
-  {FSE:"Ryan", Level:"Level 6", Host:"SFMC6DNSSurv1", IP:"172.31.11.34", Subnet:"255.255.248.0", GW:"172.31.8.1", VLAN:"102", DNS1:"172.31.3.1", DNS2:"172.31.3.2", Printer:"6DNSprinter", PrinterIP:"172.31.11.97"},
-  {FSE:"Ryan", Level:"Level 6", Host:"SFMC6BSurv1", IP:"172.31.11.35", Subnet:"255.255.248.0", GW:"172.31.8.1", VLAN:"102", DNS1:"172.31.3.1", DNS2:"172.31.3.2", Printer:"6Bprinter", PrinterIP:"172.31.11.96"},
-  {FSE:"Ryan", Level:"Level 6", Host:"SFMC6ASurv1", IP:"172.31.11.36", Subnet:"255.255.248.0", GW:"172.31.8.1", VLAN:"103", DNS1:"172.31.3.1", DNS2:"172.31.3.2", Printer:"6Aprinter", PrinterIP:"172.31.11.100"},
-
-  {FSE:"Maria", Level:"Level 3", Host:"SFMCICUESurv1", IP:"172.31.19.32", Subnet:"255.255.248.0", GW:"172.31.16.1", VLAN:"103", DNS1:"172.31.3.1", DNS2:"172.31.3.2", Printer:"ICUEprinter", PrinterIP:"172.31.19.96"},
-  {FSE:"Maria", Level:"Level 3", Host:"SFMCICUCSurv1", IP:"172.31.19.33", Subnet:"255.255.248.0", GW:"172.31.16.1", VLAN:"103", DNS1:"172.31.3.1", DNS2:"172.31.3.2", Printer:"ICUCprinter", PrinterIP:"172.31.19.97"},
-  {FSE:"Maria", Level:"Level 3", Host:"SFMCICUWSurv1", IP:"172.31.19.34", Subnet:"255.255.248.0", GW:"172.31.16.1", VLAN:"103", DNS1:"172.31.3.1", DNS2:"172.31.3.2", Printer:"ICUWprinter", PrinterIP:"172.31.19.98"},
-  {FSE:"Maria", Level:"Level 3", Host:"SFMC3GSurv1", IP:"172.31.27.32", Subnet:"255.255.248.0", GW:"172.31.24.1", VLAN:"104", DNS1:"172.31.3.1", DNS2:"172.31.3.2", Printer:"3Gprinter", PrinterIP:"172.31.27.99"},
-  {FSE:"Maria", Level:"Level 4", Host:"SFMC4GSurv1", IP:"172.31.27.33", Subnet:"255.255.248.0", GW:"172.31.24.1", VLAN:"104", DNS1:"172.31.3.1", DNS2:"172.31.3.2", Printer:"4Gprinter", PrinterIP:"172.31.27.97"},
-
-  {FSE:"Kai", Level:"Level 3", Host:"SFMCEDASurv1", IP:"172.31.27.34", Subnet:"255.255.248.0", GW:"172.31.24.1", VLAN:"104", DNS1:"172.31.3.1", DNS2:"172.31.3.2", Printer:"EDAprinter", PrinterIP:"172.31.27.98"},
-  {FSE:"Kai", Level:"Level 3", Host:"SFMCEDDSurv1", IP:"172.31.27.35", Subnet:"255.255.248.0", GW:"172.31.24.1", VLAN:"104", DNS1:"172.31.3.1", DNS2:"172.31.3.2", Printer:"EDDprinter", PrinterIP:"172.31.27.96"},
-  {FSE:"Kai", Level:"Level 3", Host:"SFMCEDPAEDSurv1", IP:"172.31.27.36", Subnet:"255.255.248.0", GW:"172.31.24.1", VLAN:"104", DNS1:"172.31.3.1", DNS2:"172.31.3.2", Printer:"EDPprinter", PrinterIP:"172.31.27.100"},
-  {FSE:"Kai", Level:"Level 3", Host:"SFMCRESUSSurv1", IP:"172.31.27.37", Subnet:"255.255.248.0", GW:"172.31.24.1", VLAN:"104", DNS1:"172.31.3.1", DNS2:"172.31.3.2", Printer:"EDRprinter", PrinterIP:"172.31.27.101"},
-  {FSE:"Kai", Level:"Level 3", Host:"SFMCEDSSurv1", IP:"172.31.27.38", Subnet:"255.255.248.0", GW:"172.31.24.1", VLAN:"104", DNS1:"172.31.3.1", DNS2:"172.31.3.2", Printer:"EDSprinter", PrinterIP:"172.31.27.102"},
-  {FSE:"Kai", Level:"Level 4", Host:"SFMCPaedSurv1", IP:"172.31.27.39", Subnet:"255.255.248.0", GW:"172.31.24.1", VLAN:"105", DNS1:"172.31.3.1", DNS2:"172.31.3.2", Printer:"PAEprinter", PrinterIP:"172.31.27.103"}
-];
-
-/** ---------- Tabs ---------- **/
-const tabs = [...document.querySelectorAll('.tab-btn')];
-const panels = [...document.querySelectorAll('.panel')];
-tabs.forEach(btn=>{
-  btn.addEventListener('click', ()=>{
-    tabs.forEach(b=>b.setAttribute('aria-selected','false'));
-    btn.setAttribute('aria-selected','true');
-    panels.forEach(p=>p.classList.remove('active'));
-    document.getElementById(btn.getAttribute('aria-controls')).classList.add('active');
-  });
-});
-
-/** ---------- Summary table (search + sort) ---------- **/
-const tbody = document.getElementById('host-tbody');
-let currentSort = [];
-const renderTable = (rows) => {
-  tbody.innerHTML = rows.map(r=>`
-    <tr>
-      <td>${r.FSE}</td>
-      <td class="nowrap">${r.Level}</td>
-      <td class="nowrap"><span class="copy" data-copy="${r.Host}">${r.Host}</span></td>
-      <td class="nowrap"><span class="copy" data-copy="${r.IP}">${r.IP}</span></td>
-      <td class="nowrap">${r.Subnet}</td>
-      <td class="nowrap">${r.GW}</td>
-      <td class="nowrap"><span class="tag">VLAN ${r.VLAN}</span></td>
-      <td class="nowrap">${r.DNS1}</td>
-      <td class="nowrap">${r.DNS2}</td>
-      <td class="nowrap">${r.Printer}</td>
-      <td class="nowrap"><span class="copy" data-copy="${r.PrinterIP}">${r.PrinterIP}</span></td>
-    </tr>
-  `).join('');
-  enableCopy();
-};
-const getSorted = (rows) => {
-  if(!currentSort.length) return rows;
-  return [...rows].sort((a,b)=>{
-    for(const s of currentSort){
-      const {key,dir} = s;
-      const av = a[key] ?? ""; const bv = b[key] ?? "";
-      if(av === bv) continue;
-      if(!isNaN(Number(av)) && !isNaN(Number(bv))){
-        return dir * (Number(av)-Number(bv));
-      }
-      return dir * String(av).localeCompare(String(bv), undefined, {numeric:true,sensitivity:'base'});
-    }
-    return 0;
-  });
-};
-renderTable(HOSTS);
-
-document.getElementById('search').addEventListener('input', (e)=>{
-  const q = e.target.value.trim().toLowerCase();
-  const filtered = HOSTS.filter(h=>Object.values(h).some(v=>String(v).toLowerCase().includes(q)));
-  renderTable(getSorted(filtered));
-});
-[...document.querySelectorAll('th[data-key]')].forEach(th=>{
-  th.style.cursor='pointer';
-  th.title='Click to sort';
-  th.addEventListener('click',(e)=>{
-    const key = th.dataset.key;
-    const multi = e.shiftKey;
-    const existing = currentSort.find(s=>s.key===key);
-    if(!multi) currentSort=[];
-    if(!existing){ currentSort.push({key,dir:1}); }
-    else if(existing.dir===1){ existing.dir=-1; }
-    else { currentSort = currentSort.filter(s=>s.key!==key); }
-    renderTable(getSorted([...document.querySelectorAll('#search')][0].value? HOSTS.filter(h=>Object.values(h).some(v=>String(v).toLowerCase().includes(document.getElementById('search').value.toLowerCase()))):HOSTS));
-  });
-});
-
-/** ---------- Roll-up cards (counts by FSE / VLAN / Level) ---------- **/
-const roll = document.getElementById('rollup');
-const countBy = (key) => Object.entries(HOSTS.reduce((acc,h)=>((acc[h[key]]=(acc[h[key]]||0)+1),acc),{}));
-const makeRollCard = (title, items) => {
-  const div = document.createElement('div');
-  div.className='card';
-  div.innerHTML = `<h3>${title}</h3><div class="row">${items.map(([k,v])=>`<span class="pill">${k}: <strong>${v}</strong></span>`).join('')}</div>`;
-  return div;
-};
-roll.append(
-  makeRollCard('By FSE', countBy('FSE')),
-  makeRollCard('By VLAN', countBy('VLAN')),
-  makeRollCard('By Level', countBy('Level'))
-);
-
-/** ---------- FSE grids ---------- **/
-const byFSE = (name)=>HOSTS.filter(h=>h.FSE===name);
-const cardHTML = (h)=>`
-  <div class="card">
-    <h3>${h.Host}</h3>
-    <div class="kv">
-      <div>FSE</div><div>${h.FSE}</div>
-      <div>Level</div><div>${h.Level}</div>
-      <div>IP</div><div><span class="copy" data-copy="${h.IP}">${h.IP}</span></div>
-      <div>Subnet</div><div>${h.Subnet}</div>
-      <div>Gateway</div><div>${h.GW}</div>
-      <div>VLAN</div><div><span class="tag">VLAN ${h.VLAN}</span></div>
-      <div>DNS</div><div>${h.DNS1} • ${h.DNS2}</div>
-      <div>Printer</div><div>${h.Printer} — <span class="copy" data-copy="${h.PrinterIP}">${h.PrinterIP}</span></div>
-      <div>Domain</div><div>intellivue.net</div>
-    </div>
-    <div class="row">
-      <span class="pill">Hostname: <span class="copy" data-copy="${h.Host}">${h.Host}</span></span>
-      <span class="pill">OK to proceed: <span class="ok">confirm</span></span>
-    </div>
+  <div class="wrap">
+    <div id="view"></div>
   </div>
-`;
-const mountGrid = (id, arr)=>{
-  const el = document.getElementById(id);
-  el.innerHTML = arr.map(cardHTML).join('');
-  enableCopy();
-};
-mountGrid('grid-ryan', byFSE('Ryan'));
-mountGrid('grid-maria', byFSE('Maria'));
-mountGrid('grid-kai', byFSE('Kai'));
 
-/** ---------- Copy helper ---------- **/
-function enableCopy(){
-  document.querySelectorAll('.copy').forEach(el=>{
-    el.addEventListener('click', async ()=>{
-      try{
-        await navigator.clipboard.writeText(el.dataset.copy);
-        const old = el.textContent;
-        el.textContent = 'Copied ✓';
-        setTimeout(()=>{ el.textContent = old; }, 900);
-      }catch(e){
-        alert('Copy failed: ' + e);
-      }
-    }, {once:false});
-  });
-}
-</script>
+  <div id="toast" class="toast">Copied to clipboard</div>
+
+  <script>
+  // --- Data ---------------------------------------------------------------
+  const hosts = [
+    {fse:'Ryan', start:'12:00', level:'Level 6', host:'SFMCCCUSurv1', ip:'172.31.11.32', mask:'255.255.248.0', gw:'172.31.8.1', vlan:'102', dns1:'172.31.3.1', dns2:'172.31.3.2'},
+    {fse:'Ryan', start:'12:15', level:'Level 6', host:'SFMC6DCSurv1', ip:'172.31.11.33', mask:'255.255.248.0', gw:'172.31.8.1', vlan:'102', dns1:'172.31.3.1', dns2:'172.31.3.2'},
+    {fse:'Ryan', start:'12:30', level:'Level 6', host:'SFMC6DNSSurv1', ip:'172.31.11.34', mask:'255.255.248.0', gw:'172.31.8.1', vlan:'102', dns1:'172.31.3.1', dns2:'172.31.3.2'},
+    {fse:'Ryan', start:'12:45', level:'Level 6', host:'SFMC6BSurv1', ip:'172.31.11.35', mask:'255.255.248.0', gw:'172.31.8.1', vlan:'102', dns1:'172.31.3.1', dns2:'172.31.3.2'},
+    {fse:'Ryan', start:'1:00', level:'Level 6', host:'SFMC6ASurv1', ip:'172.31.11.36', mask:'255.255.248.0', gw:'172.31.8.1', vlan:'103', dns1:'172.31.3.1', dns2:'172.31.3.2'},
+
+    {fse:'Maria', start:'12:00', level:'Level 3', host:'SFMCICUESurv1', ip:'172.31.19.32', mask:'255.255.248.0', gw:'172.31.16.1', vlan:'103', dns1:'172.31.3.1', dns2:'172.31.3.2'},
+    {fse:'Maria', start:'12:15', level:'Level 3', host:'SFMCICUCSurv1', ip:'172.31.19.33', mask:'255.255.248.0', gw:'172.31.16.1', vlan:'103', dns1:'172.31.3.1', dns2:'172.31.3.2'},
+    {fse:'Maria', start:'12:30', level:'Level 3', host:'SFMCICUWSurv1', ip:'172.31.19.34', mask:'255.255.248.0', gw:'172.31.16.1', vlan:'103', dns1:'172.31.3.1', dns2:'172.31.3.2'},
+    {fse:'Maria', start:'12:45', level:'Level 3', host:'SFMC3GSurv1', ip:'172.31.27.32', mask:'255.255.248.0', gw:'172.31.24.1', vlan:'104', dns1:'172.31.3.1', dns2:'172.31.3.2'},
+    {fse:'Maria', start:'1:00', level:'Level 4', host:'SFMC4GSurv1', ip:'172.31.27.33', mask:'255.255.248.0', gw:'172.31.24.1', vlan:'104', dns1:'172.31.3.1', dns2:'172.31.3.2'},
+    {fse:'Maria', start:'12:45', level:'Level 4', host:'SFMCPaedSurv1', ip:'172.31.27.39', mask:'255.255.248.0', gw:'172.31.24.1', vlan:'105', dns1:'172.31.3.1', dns2:'172.31.3.2'},
+
+    {fse:'Kai', start:'12:30', level:'Level 3', host:'SFMCEDASurv1', ip:'172.31.27.34', mask:'255.255.248.0', gw:'172.31.24.1', vlan:'104', dns1:'172.31.3.1', dns2:'172.31.3.2'},
+    {fse:'Kai', start:'12:45', level:'Level 3', host:'SFMCEDDSurv1', ip:'172.31.27.35', mask:'255.255.248.0', gw:'172.31.24.1', vlan:'104', dns1:'172.31.3.1', dns2:'172.31.3.2'},
+    {fse:'Kai', start:'1:00', level:'Level 3', host:'SFMCEDPAEDSurv1', ip:'172.31.27.36', mask:'255.255.248.0', gw:'172.31.24.1', vlan:'104', dns1:'172.31.3.1', dns2:'172.31.3.2'},
+    {fse:'Kai', start:'2:30', level:'Level 3', host:'SFMCRESUSSurv1', ip:'172.31.27.37', mask:'255.255.248.0', gw:'172.31.24.1', vlan:'104', dns1:'172.31.3.1', dns2:'172.31.3.2'},
+    {fse:'Kai', start:'2:45', level:'Level 3', host:'SFMCEDSSurv1', ip:'172.31.27.38', mask:'255.255.248.0', gw:'172.31.24.1', vlan:'104', dns1:'172.31.3.1', dns2:'172.31.3.2'},
+  ];
+
+  const instructions = [
+    'Talk to ward staff, warn of downtime and get OK to begin',
+    'Enter System Config → Control Panel and photograph printer(s) details (name, IP address)',
+    'Insert Media Kit in rear USB',
+    'Reboot PC — press <Alt>+<F4>',
+    'Press <F9> during boot → Select USB Media Kit',
+    'Click OK on warning dialogs ×2 → Install process begins (~20 mins)',
+    'PC will reboot several times; once Windows Taskbar is shown remove Media Kit and start next PC',
+    'At PIC iX Setup: set Hostname & IP as per chassis label; Subnet 255.255.248.0; DNS 172.31.3.1 & 172.31.3.2; Advanced → Domain intellivue.net',
+    'Reboot after all above settings are changed',
+    'Control Panel → Install printer(s) using previous name & IP, HP PCL driver, paper A4',
+    'Run PIC iX Setup',
+    'Regional Settings: English (Australia)',
+    'Install Product Databases (wait 2 minutes)',
+    "Configuration Server: Other Host → SFMCPRIMARY",
+    'Enter password “WCX3TCg)”',
+    'When prompted, user: philipsfieldengr; password: “FE+Sup42p0rt!”',
+    'Request Encryption Configuration (auto-configured)',
+    'Licensing/topology should remain unchanged (ensure Hostname is correct)',
+    'Test speaker functionality — confirm sound',
+    'Proceed Next → Next until Host Qualification; verify no failures',
+    'Next → Start Patient Monitoring Services and reboot',
+    'System should auto-start and connect to monitors'
+  ];
+
+  // --- Utilities ----------------------------------------------------------
+  const $ = sel => document.querySelector(sel);
+  const el = (tag, props={}, ...children) => {
+    const x = document.createElement(tag);
+    Object.entries(props).forEach(([k,v])=>{
+      if(k==='class') x.className=v; else if(k==='html') x.innerHTML=v; else if(k.startsWith('on')) x.addEventListener(k.slice(2), v); else x.setAttribute(k,v);
+    });
+    children.flat().forEach(c=>x.appendChild(typeof c==='string'?document.createTextNode(c):c));
+    return x;
+  }
+  const toast = (msg) => { const t=$('#toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1200); }
+
+  const copy = (text) => navigator.clipboard.writeText(text).then(()=>toast('Copied to clipboard'));
+
+  const timeSort = (a,b)=>{
+    const p = s=>{const [h,m]=s.split(':'); let hh=parseInt(h,10); if(hh===12 && s.includes(':') && s.indexOf(':')===2 && !s.toLowerCase().includes('am')){}; // keep
+      // Treat 1:00 etc as 13:00 for ordering
+      return (hh<8?hh+12:hh)*60 + parseInt(m,10);
+    };
+    return p(a.start)-p(b.start);
+  }
+
+  const groupBy = (arr, key) => arr.reduce((acc,cur)=>{(acc[cur[key]]??=[]).push(cur);return acc},{});
+
+  // --- Rendering ----------------------------------------------------------
+  const TABS = ['Summary','Ryan','Maria','Kai'];
+
+  function renderTabs(){
+    const counts = Object.fromEntries(Object.entries(groupBy(hosts,'fse')).map(([k,v])=>[k,v.length]));
+    const wrap = $('#tabs');
+    wrap.innerHTML='';
+    TABS.forEach(name=>{
+      const c = name==='Summary'?hosts.length:counts[name]||0;
+      const btn = el('button',{class:'tab-btn'+(name==='Summary'?' active':''), onClick:()=>activate(name)},
+        el('span',{},name), el('span',{class:'count'},c));
+      wrap.appendChild(btn);
+    })
+  }
+
+  function badge(text){ return el('span',{class:'pill'}, text); }
+
+  function tableFor(rows){
+    const thead = el('thead',{}, el('tr',{},
+      el('th',{},'Start'), el('th',{},'Building Lvl'), el('th',{},'Host Name'), el('th',{},'IP Address'), el('th',{},'Subnet Mask'), el('th',{},'Gateway'), el('th',{},'VLAN'), el('th',{},'DNS 1'), el('th',{},'DNS 2')
+    ));
+    const tbody = el('tbody');
+    rows.forEach(r=>{
+      const row = el('tr', {onDblclick:()=>copy(`${r.host} ${r.ip}`)});
+      row.append(
+        el('td',{'data-label':'Start'}, r.start),
+        el('td',{'data-label':'Building Lvl'}, r.level),
+        el('td',{'data-label':'Host Name'}, el('span',{class:'mono'}, r.host), ' ', el('button',{class:'pill',title:'Copy hostname',onClick:(e)=>{e.stopPropagation();copy(r.host)}},'Copy')),
+        el('td',{'data-label':'IP Address'}, el('span',{class:'mono'}, r.ip), ' ', el('button',{class:'pill',title:'Copy IP',onClick:(e)=>{e.stopPropagation();copy(r.ip)}},'Copy')),
+        el('td',{'data-label':'Subnet Mask'}, el('span',{class:'mono'}, r.mask)),
+        el('td',{'data-label':'Gateway'}, el('span',{class:'mono'}, r.gw)),
+        el('td',{'data-label':'VLAN'}, el('span',{class:'chip'}, r.vlan)),
+        el('td',{'data-label':'DNS 1'}, el('span',{class:'mono'}, r.dns1)),
+        el('td',{'data-label':'DNS 2'}, el('span',{class:'mono'}, r.dns2)),
+      );
+      tbody.appendChild(row);
+    })
+    return el('table',{}, thead, tbody);
+  }
+
+  function stepsBlock(){
+    const box = el('div', {class:'panel'});
+    box.append(el('h2', {style:'margin:0 0 6px;font-size:18px'}, 'Procedure (applies to all hosts)'));
+    box.append(el('div',{class:'note',html:'Tip: click the <span class="kbd">Copy</span> buttons in the table to copy host/IP. Double‑click a row to copy “HOST IP”.'}));
+
+    const list = el('div',{class:'steps'});
+    instructions.forEach((s, i)=>{
+      const id = 'step_'+i;
+      const row = el('label',{class:'step'},
+        el('input',{type:'checkbox', onChange:(e)=>{row.classList.toggle('done', e.target.checked)}}),
+        el('span',{class:'num'}, String(i+1)),
+        el('div',{}, s)
+      );
+      list.appendChild(row);
+    })
+    box.appendChild(list);
+    return box;
+  }
+
+  function searchBox(onInput){
+    return el('div',{class:'search panel'},
+      el('input',{type:'search', placeholder:'Filter by host, level, IP, VLAN…', onInput:(e)=>onInput(e.target.value.trim().toLowerCase())}),
+      badge('⌚ Double‑click row copies “HOST IP”'),
+      badge('🖨 Printer: HP PCL, A4'),
+      badge('🌐 Domain: intellivue.net')
+    );
+  }
+
+  function renderSummary(){
+    const view = $('#view');
+    view.innerHTML='';
+
+    const headline = el('div',{class:'panel grid'});
+    const byFSE = groupBy(hosts,'fse');
+
+    const left = el('div',{},
+      el('h2',{style:'margin:0 0 10px;font-size:18px'},'Today\'s Schedule Overview'),
+      el('div',{class:'note'},`Total hosts: ${hosts.length} · Ryan: ${byFSE.Ryan?.length||0} · Maria: ${byFSE.Maria?.length||0} · Kai: ${byFSE.Kai?.length||0}`),
+      tableFor([...hosts].sort((a,b)=>a.fse.localeCompare(b.fse)||timeSort(a,b)))
+    );
+
+    const vlanCounts = Object.entries(groupBy(hosts,'vlan')).map(([k,v])=>({vlan:k,count:v.length})).sort((a,b)=>a.vlan.localeCompare(b.vlan));
+    const right = el('div',{},
+      el('h3',{style:'margin:0 0 8px;font-size:16px'},'Quick Facts'),
+      el('div',{class:'pill',style:'margin-bottom:8px'}, `Subnets: 255.255.248.0 · DNS: 172.31.3.1 / 172.31.3.2`),
+      el('div',{class:'panel',style:'padding:12px'},
+        el('div',{class:'note',style:'margin-bottom:8px'},'VLAN distribution'),
+        el('div',{}, vlanCounts.map(({vlan,count})=>el('div',{style:'display:flex;justify-content:space-between;margin:6px 0'},
+          el('span',{},`VLAN ${vlan}`), el('span',{class:'chip'}, String(count))
+        )))
+      )
+    );
+
+    headline.append(left,right);
+    view.appendChild(headline);
+  }
+
+  function renderFSE(name){
+    const view = $('#view'); view.innerHTML='';
+    const rows = hosts.filter(h=>h.fse===name).sort(timeSort);
+
+    // Instructions block
+    view.appendChild(stepsBlock());
+
+    // Filter + table
+    let filtered = rows;
+    const onFilter = (q)=>{
+      filtered = !q?rows: rows.filter(r=>Object.values(r).join(' ').toLowerCase().includes(q));
+      tableWrap.innerHTML='';
+      tableWrap.appendChild(tableFor(filtered));
+    }
+    view.appendChild(searchBox(onFilter));
+
+    const tableWrap = el('div',{class:'panel'});
+    tableWrap.appendChild(tableFor(filtered));
+
+    const header = el('div',{style:'display:flex;justify-content:space-between;align-items:center;margin:6px 0 0'},
+      el('h2',{style:'margin:0;font-size:18px'}, `${name} · Assigned Hosts`),
+      el('div',{}, badge(`Total: ${rows.length}`))
+    );
+
+    view.appendChild(header);
+    view.appendChild(tableWrap);
+
+    // Footnote
+    view.appendChild(el('div',{class:'note',style:'margin-top:10px'}, 'Passwords (case‑sensitive): Config “WCX3TCg)”; FE login “FE+Sup42p0rt!”.'));
+  }
+
+  function activate(name){
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    [...document.querySelectorAll('.tab-btn')].find(b=>b.textContent.trim().startsWith(name)).classList.add('active');
+    if(name==='Summary') renderSummary(); else renderFSE(name);
+  }
+
+  // Init
+  renderTabs();
+  activate('Summary');
+  </script>
 </body>
 </html>
