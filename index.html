@@ -3,306 +3,382 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>FSE Run Sheet · Summary + Ryan + Maria + Kai</title>
+  <title>Field Service Run Sheet — Hosts & Instructions</title>
   <style>
     :root{
-      --bg: #0f1115;           /* dark slate */
-      --panel: #151922;        /* card */
-      --muted: #9aa4b2;        /* text secondary */
-      --text: #e7edf5;         /* text primary */
-      --brand: #5dd3ff;        /* accent */
-      --brand-2:#7ef7d4;       /* accent 2 */
-      --ok:#79e39e;            /* good */
-      --warn:#ffcf6b;          /* warn */
-      --danger:#ff8b8b;        /* danger */
-      --ring: 0 0 0 2px rgba(93,211,255,.35);
+      --bg: #0b0c10;
+      --card: #121318;
+      --muted: #8b93a7;
+      --text: #e8ebf1;
+      --accent: #4cc9f0;
+      --accent-2: #a9f0c1;
+      --warn: #ffd166;
+      --danger: #ff5c5c;
+      --ok: #7bd88f;
+      --border: #222633;
+      --chip-102:#66c2ff; /* VLAN colours */
+      --chip-103:#a7f3d0;
+      --chip-104:#ffd6a5;
+      --chip-105:#c7b3ff;
       --radius: 16px;
+      --shadow: 0 6px 24px rgba(0,0,0,.25);
+      --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      --font: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
     }
-    html,body{height:100%;}
-    body{
-      margin:0; background:linear-gradient(180deg,#0b0d12,#0f1115 15% 85%,#0b0d12);
-      color:var(--text); font:400 16px/1.5 ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial;
-      -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale;
-    }
-    .wrap{max-width:1100px;margin:24px auto;padding:0 16px 40px;}
-    header{position:sticky;top:0;z-index:10;backdrop-filter:saturate(1.1) blur(8px);
-      background:linear-gradient(180deg,rgba(15,17,21,.9),rgba(15,17,21,.6));
-      border-bottom:1px solid rgba(255,255,255,.06)}
-    header .inner{max-width:1100px;margin:0 auto;padding:14px 16px;display:flex;gap:14px;align-items:center;}
-    h1{font-size:20px;margin:0 12px 0 0;letter-spacing:.2px}
-    .tag{font-size:12px;color:var(--bg);background:linear-gradient(135deg,var(--brand),var(--brand-2));
-      padding:2px 8px;border-radius:999px;font-weight:700}
-    .tabs{display:flex;gap:8px;flex-wrap:wrap}
-    .tab-btn{background:var(--panel);border:1px solid rgba(255,255,255,.08);color:var(--text);
-      padding:8px 12px;border-radius:12px;cursor:pointer;transition:.15s;display:flex;align-items:center;gap:8px}
-    .tab-btn:hover{transform:translateY(-1px)}
-    .tab-btn.active{background:linear-gradient(180deg,#1a2030,#151922);box-shadow:var(--ring);border-color:transparent}
-    .count{font-size:12px;padding:2px 6px;background:#1f2636;border:1px solid rgba(255,255,255,.08);border-radius:999px;color:var(--muted)}
-    .panel{background:linear-gradient(180deg,#121722,#121520);border:1px solid rgba(255,255,255,.08);
-      border-radius:var(--radius);padding:18px; margin-top:16px}
-    .grid{display:grid;gap:16px}
-    @media(min-width:900px){.grid{grid-template-columns:1.2fr .8fr}}
-    .search{display:flex;gap:10px;align-items:center}
-    .search input{flex:1;padding:12px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.12);background:#0f1320;color:var(--text)}
-    .search input:focus{outline:none;box-shadow:var(--ring);border-color:transparent}
-    .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#1d2434;border:1px solid rgba(255,255,255,.08);color:var(--muted);font-size:12px}
-
-    .steps{counter-reset:step;display:flex;flex-direction:column;gap:10px}
-    .step{display:flex;gap:10px;align-items:flex-start;background:#101522;border:1px dashed rgba(255,255,255,.09);
-      padding:10px 12px;border-radius:12px}
-    .step input{margin-top:4px}
-    .step .num{width:28px;height:28px;border-radius:8px;background:#0e1422;border:1px solid rgba(255,255,255,.1);display:flex;align-items:center;justify-content:center;color:var(--brand-2);font-weight:700}
-    .step.done{opacity:.7}
-
-    table{width:100%;border-collapse:separate;border-spacing:0 8px}
-    thead th{font-size:12px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding:0 10px}
-    tbody tr{background:#0e1422;border:1px solid rgba(255,255,255,.08)}
-    tbody tr td{padding:10px;border-top:1px solid rgba(255,255,255,.08);border-bottom:1px solid rgba(255,255,255,.08)}
-    tbody tr td:first-child{border-left:1px solid rgba(255,255,255,.08);border-top-left-radius:12px;border-bottom-left-radius:12px}
-    tbody tr td:last-child{border-right:1px solid rgba(255,255,255,.08);border-top-right-radius:12px;border-bottom-right-radius:12px}
-    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace}
-    .chip{font-size:12px;padding:2px 8px;border-radius:999px;border:1px solid rgba(255,255,255,.12);background:#151b2a;color:var(--text)}
+    html,body{background:var(--bg);color:var(--text);font-family:var(--font);margin:0;}
+    .wrap{max-width:1100px;margin-inline:auto;padding:24px;}
+    header{display:flex;gap:16px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:16px}
+    .title{font-weight:700;letter-spacing:.2px}
+    .subtitle{color:var(--muted);font-size:.95rem}
+    .tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0 16px}
+    .tab-btn{appearance:none;border:1px solid var(--border);background:linear-gradient(180deg,#141724,#0f1220);color:var(--text);padding:10px 14px;border-radius:12px;cursor:pointer;transition:.15s;box-shadow:0 2px 0 rgba(255,255,255,.02) inset}
+    .tab-btn[aria-selected="true"]{border-color:transparent;background:linear-gradient(180deg,#1a1e2f,#121627);box-shadow:var(--shadow)}
+    .tab-btn:focus-visible{outline:2px solid var(--accent)}
+    .cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:8px 0 18px}
+    .card{background:linear-gradient(180deg,#121626,#0d101d);border:1px solid var(--border);border-radius:var(--radius);padding:14px;box-shadow:var(--shadow)}
+    .card h3{margin:.2rem 0 .4rem;font-size:1rem}
+    .kpi{font-size:1.8rem;font-weight:800}
     .muted{color:var(--muted)}
-    .note{font-size:13px;color:var(--muted)}
+    .panel{background:linear-gradient(180deg,#101423,#0c0f1b);border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin:12px 0}
+    details.instructions{border-radius:var(--radius);}
+    details>summary{cursor:pointer;list-style:none;font-weight:700}
+    details>summary::-webkit-details-marker{display:none}
+    ol.steps{line-height:1.45;padding-left:1.2rem;margin-top:.6rem}
+    ol.steps li{margin:6px 0}
+    code, kbd{font-family:var(--mono);background:#0a0d18;border:1px solid var(--border);padding:0 .35rem;border-radius:8px}
+    kbd{border-bottom-width:2px;}
+    .toolbar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:space-between;margin:10px 0}
+    .btn{border:1px solid var(--border);background:#13172a;color:var(--text);padding:8px 12px;border-radius:12px;cursor:pointer}
+    .btn:hover{filter:brightness(1.08)}
+    .search{flex:1;min-width:220px}
+    .search input{width:100%;padding:10px 12px;border-radius:12px;border:1px solid var(--border);background:#101322;color:var(--text)}
+    table{width:100%;border-collapse:separate;border-spacing:0;border:1px solid var(--border);border-radius:14px;overflow:hidden;background:#0e1220}
+    thead th{font-size:.88rem;text-align:left;color:#cbd2e1;background:#0f1424;border-bottom:1px solid var(--border)}
+    th,td{padding:10px 12px}
+    tbody tr{border-bottom:1px solid var(--border)}
+    tbody tr:nth-child(odd){background:#0c1020}
+    .chip{display:inline-flex;align-items:center;gap:6px;border-radius:999px;padding:4px 10px;border:1px solid var(--border);font-size:.83rem;font-weight:700}
+    .chip[data-vlan="102"]{background:rgba(102,194,255,.14);color:#dff1ff}
+    .chip[data-vlan="103"]{background:rgba(167,243,208,.12);color:#eafff2}
+    .chip[data-vlan="104"]{background:rgba(255,214,165,.12);color:#fff3e6}
+    .chip[data-vlan="105"]{background:rgba(199,179,255,.12);color:#f1eaff}
+    .nowrap{white-space:nowrap}
+    .row-actions{display:flex;gap:8px}
+    .small{font-size:.85rem}
+    footer{opacity:.8;margin-top:28px}
 
-    /* Responsive table */
-    @media(max-width:800px){
-      thead{display:none}
-      tbody tr{display:grid;grid-template-columns:1fr 1fr;gap:8px;padding:10px}
-      tbody tr td{border:0;padding:2px 0}
-      tbody tr td[data-label]{position:relative;padding-left:0}
-      tbody tr td[data-label]::before{content:attr(data-label);display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px}
+    /* Responsive tables -> cards */
+    @media (max-width: 860px){
+      .cards{grid-template-columns:repeat(2,minmax(0,1fr))}
+    }
+    @media (max-width: 640px){
+      .cards{grid-template-columns:1fr}
+      table thead{display:none}
+      table tbody tr{display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:10px}
+      table tbody td{display:flex;flex-direction:column;gap:4px;padding:6px 8px}
+      table tbody td::before{content:attr(data-label);font-size:.75rem;color:var(--muted)}
+      .row-actions{grid-column:1 / -1}
     }
 
-    .kbd{font:600 12px/1 ui-monospace, SFMono-Regular, Menlo, Consolas; padding:3px 6px;border-radius:6px;border:1px solid rgba(255,255,255,.12);background:#0f1422}
-    .toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:#121a2a;border:1px solid rgba(255,255,255,.12);padding:10px 14px;border-radius:999px;opacity:0;transition:.2s}
-    .toast.show{opacity:1}
+    @media print{
+      body{background:#fff;color:#000}
+      .tabs,.toolbar,.btn{display:none}
+      .panel, table{break-inside:avoid}
+    }
   </style>
 </head>
 <body>
-  <header>
-    <div class="inner">
-      <h1>FSE Run Sheet</h1>
-      <span class="tag">PIC iX Host Upgrade</span>
-      <div class="tabs" id="tabs"></div>
-    </div>
-  </header>
-
   <div class="wrap">
-    <div id="view"></div>
+    <header>
+      <div>
+        <div class="title" style="font-size:1.6rem">Field Service Run Sheet — Surveillance Hosts</div>
+      </div>
+      <div class="subtitle">Last updated: <span id="lastUpdated"></span></div>
+    </header>
+
+    <nav class="tabs" role="tablist" aria-label="Sections">
+      <button class="tab-btn" role="tab" aria-selected="true" aria-controls="tab-summary" id="tabbtn-summary">Summary</button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-ryan" id="tabbtn-ryan">Ryan</button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-maria" id="tabbtn-maria">Maria</button>
+      <button class="tab-btn" role="tab" aria-selected="false" aria-controls="tab-kai" id="tabbtn-kai">Kai</button>
+    </nav>
+
+    <section id="tab-summary" role="tabpanel" aria-labelledby="tabbtn-summary">
+      <div class="cards" id="kpi-cards"></div>
+
+      <div class="panel">
+        <div class="toolbar">
+          <strong>All Hosts</strong>
+          <div class="search"><input id="globalSearch" placeholder="Search by host, FSE, level, VLAN, IP…" /></div>
+          <button class="btn" id="copyAll">Copy table</button>
+        </div>
+        <div class="table-wrap">
+          <table id="allHostsTable">
+            <thead>
+              <tr>
+                <th>FSE</th>
+                <th>Start</th>
+                <th>Level</th>
+                <th>Host Name</th>
+                <th>IP</th>
+                <th>Mask</th>
+                <th>Gateway</th>
+                <th>VLAN</th>
+                <th>DNS1</th>
+                <th>DNS2</th>
+                <th class="nowrap">Action</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-ryan" role="tabpanel" aria-labelledby="tabbtn-ryan" hidden>
+      <div class="panel">
+        <details class="instructions" open>
+          <summary>Standard Procedure — Follow for each host (Ryan)</summary>
+          <ol class="steps" id="steps-ryan"></ol>
+        </details>
+        <div class="toolbar">
+          <strong>Ryan — Assigned Hosts</strong>
+          <div class="search"><input data-scope="ryan" placeholder="Filter Ryan's hosts…" /></div>
+        </div>
+        <table id="table-ryan">
+          <thead>
+          <tr>
+            <th>Start</th><th>Level</th><th>Host Name</th><th>IP</th><th>Mask</th><th>Gateway</th><th>VLAN</th><th>DNS1</th><th>DNS2</th><th>Action</th>
+          </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tab-maria" role="tabpanel" aria-labelledby="tabbtn-maria" hidden>
+      <div class="panel">
+        <details class="instructions" open>
+          <summary>Standard Procedure — Follow for each host (Maria)</summary>
+          <ol class="steps" id="steps-maria"></ol>
+        </details>
+        <div class="toolbar">
+          <strong>Maria — Assigned Hosts</strong>
+          <div class="search"><input data-scope="maria" placeholder="Filter Maria's hosts…" /></div>
+        </div>
+        <table id="table-maria">
+          <thead>
+          <tr>
+            <th>Start</th><th>Level</th><th>Host Name</th><th>IP</th><th>Mask</th><th>Gateway</th><th>VLAN</th><th>DNS1</th><th>DNS2</th><th>Action</th>
+          </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="tab-kai" role="tabpanel" aria-labelledby="tabbtn-kai" hidden>
+      <div class="panel">
+        <details class="instructions" open>
+          <summary>Standard Procedure — Follow for each host (Kai)</summary>
+          <ol class="steps" id="steps-kai"></ol>
+        </details>
+        <div class="toolbar">
+          <strong>Kai — Assigned Hosts</strong>
+          <div class="search"><input data-scope="kai" placeholder="Filter Kai's hosts…" /></div>
+        </div>
+        <table id="table-kai">
+          <thead>
+          <tr>
+            <th>Start</th><th>Level</th><th>Host Name</th><th>IP</th><th>Mask</th><th>Gateway</th><th>VLAN</th><th>DNS1</th><th>DNS2</th><th>Action</th>
+          </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer class="small muted">
+      Tip: click <span class="chip" aria-hidden="true">VLAN</span> badges, host names, or the copy buttons to quickly grab config snippets while on the ward. Print will auto‑simplify this layout.
+    </footer>
   </div>
 
-  <div id="toast" class="toast">Copied to clipboard</div>
-
   <script>
-  // --- Data ---------------------------------------------------------------
-  const hosts = [
-    {fse:'Ryan', start:'12:00', level:'Level 6', host:'SFMCCCUSurv1', ip:'172.31.11.32', mask:'255.255.248.0', gw:'172.31.8.1', vlan:'102', dns1:'172.31.3.1', dns2:'172.31.3.2'},
-    {fse:'Ryan', start:'12:15', level:'Level 6', host:'SFMC6DCSurv1', ip:'172.31.11.33', mask:'255.255.248.0', gw:'172.31.8.1', vlan:'102', dns1:'172.31.3.1', dns2:'172.31.3.2'},
-    {fse:'Ryan', start:'12:30', level:'Level 6', host:'SFMC6DNSSurv1', ip:'172.31.11.34', mask:'255.255.248.0', gw:'172.31.8.1', vlan:'102', dns1:'172.31.3.1', dns2:'172.31.3.2'},
-    {fse:'Ryan', start:'12:45', level:'Level 6', host:'SFMC6BSurv1', ip:'172.31.11.35', mask:'255.255.248.0', gw:'172.31.8.1', vlan:'102', dns1:'172.31.3.1', dns2:'172.31.3.2'},
-    {fse:'Ryan', start:'1:00', level:'Level 6', host:'SFMC6ASurv1', ip:'172.31.11.36', mask:'255.255.248.0', gw:'172.31.8.1', vlan:'103', dns1:'172.31.3.1', dns2:'172.31.3.2'},
+    const data = [
+      {fse:"Ryan", start:"12:00", level:"Level 6", host:"SFMCCCUSurv1", ip:"172.31.11.32", mask:"255.255.248.0", gw:"172.31.8.1", vlan:"102", dns1:"172.31.3.1", dns2:"172.31.3.2"},
+      {fse:"Ryan", start:"12:15", level:"Level 6", host:"SFMC6DCSurv1", ip:"172.31.11.33", mask:"255.255.248.0", gw:"172.31.8.1", vlan:"102", dns1:"172.31.3.1", dns2:"172.31.3.2"},
+      {fse:"Ryan", start:"12:30", level:"Level 6", host:"SFMC6DNSSurv1", ip:"172.31.11.34", mask:"255.255.248.0", gw:"172.31.8.1", vlan:"102", dns1:"172.31.3.1", dns2:"172.31.3.2"},
+      {fse:"Ryan", start:"12:45", level:"Level 6", host:"SFMC6BSurv1", ip:"172.31.11.35", mask:"255.255.248.0", gw:"172.31.8.1", vlan:"102", dns1:"172.31.3.1", dns2:"172.31.3.2"},
+      {fse:"Ryan", start:"1:00",  level:"Level 6", host:"SFMC6ASurv1", ip:"172.31.11.36", mask:"255.255.248.0", gw:"172.31.8.1", vlan:"103", dns1:"172.31.3.1", dns2:"172.31.3.2"},
 
-    {fse:'Maria', start:'12:00', level:'Level 3', host:'SFMCICUESurv1', ip:'172.31.19.32', mask:'255.255.248.0', gw:'172.31.16.1', vlan:'103', dns1:'172.31.3.1', dns2:'172.31.3.2'},
-    {fse:'Maria', start:'12:15', level:'Level 3', host:'SFMCICUCSurv1', ip:'172.31.19.33', mask:'255.255.248.0', gw:'172.31.16.1', vlan:'103', dns1:'172.31.3.1', dns2:'172.31.3.2'},
-    {fse:'Maria', start:'12:30', level:'Level 3', host:'SFMCICUWSurv1', ip:'172.31.19.34', mask:'255.255.248.0', gw:'172.31.16.1', vlan:'103', dns1:'172.31.3.1', dns2:'172.31.3.2'},
-    {fse:'Maria', start:'12:45', level:'Level 3', host:'SFMC3GSurv1', ip:'172.31.27.32', mask:'255.255.248.0', gw:'172.31.24.1', vlan:'104', dns1:'172.31.3.1', dns2:'172.31.3.2'},
-    {fse:'Maria', start:'1:00', level:'Level 4', host:'SFMC4GSurv1', ip:'172.31.27.33', mask:'255.255.248.0', gw:'172.31.24.1', vlan:'104', dns1:'172.31.3.1', dns2:'172.31.3.2'},
-    {fse:'Maria', start:'12:45', level:'Level 4', host:'SFMCPaedSurv1', ip:'172.31.27.39', mask:'255.255.248.0', gw:'172.31.24.1', vlan:'105', dns1:'172.31.3.1', dns2:'172.31.3.2'},
+      {fse:"Maria", start:"12:00", level:"Level 3", host:"SFMCICUESurv1", ip:"172.31.19.32", mask:"255.255.248.0", gw:"172.31.16.1", vlan:"103", dns1:"172.31.3.1", dns2:"172.31.3.2"},
+      {fse:"Maria", start:"12:15", level:"Level 3", host:"SFMCICUCSurv1", ip:"172.31.19.33", mask:"255.255.248.0", gw:"172.31.16.1", vlan:"103", dns1:"172.31.3.1", dns2:"172.31.3.2"},
+      {fse:"Maria", start:"12:30", level:"Level 3", host:"SFMCICUWSurv1", ip:"172.31.19.34", mask:"255.255.248.0", gw:"172.31.16.1", vlan:"103", dns1:"172.31.3.1", dns2:"172.31.3.2"},
+      {fse:"Maria", start:"12:45", level:"Level 3", host:"SFMC3GSurv1", ip:"172.31.27.32", mask:"255.255.248.0", gw:"172.31.24.1", vlan:"104", dns1:"172.31.3.1", dns2:"172.31.3.2"},
+      {fse:"Maria", start:"1:00",  level:"Level 4", host:"SFMC4GSurv1", ip:"172.31.27.33", mask:"255.255.248.0", gw:"172.31.24.1", vlan:"104", dns1:"172.31.3.1", dns2:"172.31.3.2"},
+      {fse:"Maria", start:"12:45", level:"Level 4", host:"SFMCPaedSurv1", ip:"172.31.27.39", mask:"255.255.248.0", gw:"172.31.24.1", vlan:"105", dns1:"172.31.3.1", dns2:"172.31.3.2"},
 
-    {fse:'Kai', start:'12:30', level:'Level 3', host:'SFMCEDASurv1', ip:'172.31.27.34', mask:'255.255.248.0', gw:'172.31.24.1', vlan:'104', dns1:'172.31.3.1', dns2:'172.31.3.2'},
-    {fse:'Kai', start:'12:45', level:'Level 3', host:'SFMCEDDSurv1', ip:'172.31.27.35', mask:'255.255.248.0', gw:'172.31.24.1', vlan:'104', dns1:'172.31.3.1', dns2:'172.31.3.2'},
-    {fse:'Kai', start:'1:00', level:'Level 3', host:'SFMCEDPAEDSurv1', ip:'172.31.27.36', mask:'255.255.248.0', gw:'172.31.24.1', vlan:'104', dns1:'172.31.3.1', dns2:'172.31.3.2'},
-    {fse:'Kai', start:'2:30', level:'Level 3', host:'SFMCRESUSSurv1', ip:'172.31.27.37', mask:'255.255.248.0', gw:'172.31.24.1', vlan:'104', dns1:'172.31.3.1', dns2:'172.31.3.2'},
-    {fse:'Kai', start:'2:45', level:'Level 3', host:'SFMCEDSSurv1', ip:'172.31.27.38', mask:'255.255.248.0', gw:'172.31.24.1', vlan:'104', dns1:'172.31.3.1', dns2:'172.31.3.2'},
-  ];
+      {fse:"Kai", start:"12:30", level:"Level 3", host:"SFMCEDASurv1", ip:"172.31.27.34", mask:"255.255.248.0", gw:"172.31.24.1", vlan:"104", dns1:"172.31.3.1", dns2:"172.31.3.2"},
+      {fse:"Kai", start:"12:45", level:"Level 3", host:"SFMCEDDSurv1", ip:"172.31.27.35", mask:"255.255.248.0", gw:"172.31.24.1", vlan:"104", dns1:"172.31.3.1", dns2:"172.31.3.2"},
+      {fse:"Kai", start:"1:00",  level:"Level 3", host:"SFMCEDPAEDSurv1", ip:"172.31.27.36", mask:"255.255.248.0", gw:"172.31.24.1", vlan:"104", dns1:"172.31.3.1", dns2:"172.31.3.2"},
+      {fse:"Kai", start:"2:30",  level:"Level 3", host:"SFMCRESUSSurv1", ip:"172.31.27.37", mask:"255.255.248.0", gw:"172.31.24.1", vlan:"104", dns1:"172.31.3.1", dns2:"172.31.3.2"},
+      {fse:"Kai", start:"2:45",  level:"Level 3", host:"SFMCEDSSurv1", ip:"172.31.27.38", mask:"255.255.248.0", gw:"172.31.24.1", vlan:"104", dns1:"172.31.3.1", dns2:"172.31.3.2"},
+    ];
 
-  const instructions = [
-    'Talk to ward staff, warn of downtime and get OK to begin',
-    'Enter System Config → Control Panel and photograph printer(s) details (name, IP address)',
-    'Insert Media Kit in rear USB',
-    'Reboot PC — press <Alt>+<F4>',
-    'Press <F9> during boot → Select USB Media Kit',
-    'Click OK on warning dialogs ×2 → Install process begins (~20 mins)',
-    'PC will reboot several times; once Windows Taskbar is shown remove Media Kit and start next PC',
-    'At PIC iX Setup: set Hostname & IP as per chassis label; Subnet 255.255.248.0; DNS 172.31.3.1 & 172.31.3.2; Advanced → Domain intellivue.net',
-    'Reboot after all above settings are changed',
-    'Control Panel → Install printer(s) using previous name & IP, HP PCL driver, paper A4',
-    'Run PIC iX Setup',
-    'Regional Settings: English (Australia)',
-    'Install Product Databases (wait 2 minutes)',
-    "Configuration Server: Other Host → SFMCPRIMARY",
-    'Enter password “WCX3TCg)”',
-    'When prompted, user: philipsfieldengr; password: “FE+Sup42p0rt!”',
-    'Request Encryption Configuration (auto-configured)',
-    'Licensing/topology should remain unchanged (ensure Hostname is correct)',
-    'Test speaker functionality — confirm sound',
-    'Proceed Next → Next until Host Qualification; verify no failures',
-    'Next → Start Patient Monitoring Services and reboot',
-    'System should auto-start and connect to monitors'
-  ];
+    const steps = [
+      "Speak with ward staff, advise downtime, and obtain approval to begin.",
+      "Open System Config → Control Panel and photograph the printer details (name, IP).",
+      "Insert Media Kit into rear USB port.",
+      "Reboot PC (<kbd>Alt</kbd>+<kbd>F4</kbd>).",
+      "During boot press <kbd>F9</kbd> to open Boot Menu → select the USB Media Kit.",
+      "Acknowledge warning dialogs (×2) → installation starts (~20 minutes).",
+      "PC will reboot several times. Once Windows taskbar appears, you may remove the Media Kit and start the next PC.",
+      "When PIC iX Setup screen appears, set: Hostname & IP per chassis label; Subnet <code>255.255.248.0</code>; DNS1 <code>172.31.3.1</code>; DNS2 <code>172.31.3.2</code>; Domain (Advanced) <code>intellivue.net</code>.",
+      "Reboot after saving all network/host settings.",
+      "Control Panel → Install printer(s) using previous Name and IP. Use HP PCL driver. Set paper to A4.",
+      "Run PIC iX Setup.",
+      "Regional settings: English (Australia).",
+      "Install Product Databases (wait 2 min).",
+      "Configuration Server: Other Host → <code>SFMCPRIMARY</code>.",
+      "Password: <code>WCX3TCg)</code>.",
+      "Enter <code>philipsfieldengr</code> / password <code>FE+Sup42p0rt!</code> when prompted.",
+      "Request Encryption Configuration (auto‑configured).",
+      "Licensing/topology: leave as is (ensure Hostname is correct).",
+      "Test speaker functionality and confirm.",
+      "Proceed Next → Next → Host Qualification. Verify no failures.",
+      "Next → Start Patient Monitoring Services and reboot.",
+      "System should auto‑start and connect to monitors.",
+      "In System Config set HL7 outbound port per Waylon’s email (confirm with Kai).",
+      "Set PIC iX Printer Destinations and Monitor Queues (Surveillance only).",
+    ];
 
-  // --- Utilities ----------------------------------------------------------
-  const $ = sel => document.querySelector(sel);
-  const el = (tag, props={}, ...children) => {
-    const x = document.createElement(tag);
-    Object.entries(props).forEach(([k,v])=>{
-      if(k==='class') x.className=v; else if(k==='html') x.innerHTML=v; else if(k.startsWith('on')) x.addEventListener(k.slice(2), v); else x.setAttribute(k,v);
-    });
-    children.flat().forEach(c=>x.appendChild(typeof c==='string'?document.createTextNode(c):c));
-    return x;
-  }
-  const toast = (msg) => { const t=$('#toast'); t.textContent=msg; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1200); }
-
-  const copy = (text) => navigator.clipboard.writeText(text).then(()=>toast('Copied to clipboard'));
-
-  const timeSort = (a,b)=>{
-    const p = s=>{const [h,m]=s.split(':'); let hh=parseInt(h,10); if(hh===12 && s.includes(':') && s.indexOf(':')===2 && !s.toLowerCase().includes('am')){}; // keep
-      // Treat 1:00 etc as 13:00 for ordering
-      return (hh<8?hh+12:hh)*60 + parseInt(m,10);
+    const by = (k)=> (a,b)=> {
+      if(k==='time'){return parseTime(a.start)-parseTime(b.start)}
+      return (a[k]||'').localeCompare(b[k]||'')
     };
-    return p(a.start)-p(b.start);
-  }
 
-  const groupBy = (arr, key) => arr.reduce((acc,cur)=>{(acc[cur[key]]??=[]).push(cur);return acc},{});
-
-  // --- Rendering ----------------------------------------------------------
-  const TABS = ['Summary','Ryan','Maria','Kai'];
-
-  function renderTabs(){
-    const counts = Object.fromEntries(Object.entries(groupBy(hosts,'fse')).map(([k,v])=>[k,v.length]));
-    const wrap = $('#tabs');
-    wrap.innerHTML='';
-    TABS.forEach(name=>{
-      const c = name==='Summary'?hosts.length:counts[name]||0;
-      const btn = el('button',{class:'tab-btn'+(name==='Summary'?' active':''), onClick:()=>activate(name)},
-        el('span',{},name), el('span',{class:'count'},c));
-      wrap.appendChild(btn);
-    })
-  }
-
-  function badge(text){ return el('span',{class:'pill'}, text); }
-
-  function tableFor(rows){
-    const thead = el('thead',{}, el('tr',{},
-      el('th',{},'Start'), el('th',{},'Building Lvl'), el('th',{},'Host Name'), el('th',{},'IP Address'), el('th',{},'Subnet Mask'), el('th',{},'Gateway'), el('th',{},'VLAN'), el('th',{},'DNS 1'), el('th',{},'DNS 2')
-    ));
-    const tbody = el('tbody');
-    rows.forEach(r=>{
-      const row = el('tr', {onDblclick:()=>copy(`${r.host} ${r.ip}`)});
-      row.append(
-        el('td',{'data-label':'Start'}, r.start),
-        el('td',{'data-label':'Building Lvl'}, r.level),
-        el('td',{'data-label':'Host Name'}, el('span',{class:'mono'}, r.host), ' ', el('button',{class:'pill',title:'Copy hostname',onClick:(e)=>{e.stopPropagation();copy(r.host)}},'Copy')),
-        el('td',{'data-label':'IP Address'}, el('span',{class:'mono'}, r.ip), ' ', el('button',{class:'pill',title:'Copy IP',onClick:(e)=>{e.stopPropagation();copy(r.ip)}},'Copy')),
-        el('td',{'data-label':'Subnet Mask'}, el('span',{class:'mono'}, r.mask)),
-        el('td',{'data-label':'Gateway'}, el('span',{class:'mono'}, r.gw)),
-        el('td',{'data-label':'VLAN'}, el('span',{class:'chip'}, r.vlan)),
-        el('td',{'data-label':'DNS 1'}, el('span',{class:'mono'}, r.dns1)),
-        el('td',{'data-label':'DNS 2'}, el('span',{class:'mono'}, r.dns2)),
-      );
-      tbody.appendChild(row);
-    })
-    return el('table',{}, thead, tbody);
-  }
-
-  function stepsBlock(){
-    const box = el('div', {class:'panel'});
-    box.append(el('h2', {style:'margin:0 0 6px;font-size:18px'}, 'Procedure (applies to all hosts)'));
-    box.append(el('div',{class:'note',html:'Tip: click the <span class="kbd">Copy</span> buttons in the table to copy host/IP. Double‑click a row to copy “HOST IP”.'}));
-
-    const list = el('div',{class:'steps'});
-    instructions.forEach((s, i)=>{
-      const id = 'step_'+i;
-      const row = el('label',{class:'step'},
-        el('input',{type:'checkbox', onChange:(e)=>{row.classList.toggle('done', e.target.checked)}}),
-        el('span',{class:'num'}, String(i+1)),
-        el('div',{}, s)
-      );
-      list.appendChild(row);
-    })
-    box.appendChild(list);
-    return box;
-  }
-
-  function searchBox(onInput){
-    return el('div',{class:'search panel'},
-      el('input',{type:'search', placeholder:'Filter by host, level, IP, VLAN…', onInput:(e)=>onInput(e.target.value.trim().toLowerCase())}),
-      badge('⌚ Double‑click row copies “HOST IP”'),
-      badge('🖨 Printer: HP PCL, A4'),
-      badge('🌐 Domain: intellivue.net')
-    );
-  }
-
-  function renderSummary(){
-    const view = $('#view');
-    view.innerHTML='';
-
-    const headline = el('div',{class:'panel grid'});
-    const byFSE = groupBy(hosts,'fse');
-
-    const left = el('div',{},
-      el('h2',{style:'margin:0 0 10px;font-size:18px'},'Today\'s Schedule Overview'),
-      el('div',{class:'note'},`Total hosts: ${hosts.length} · Ryan: ${byFSE.Ryan?.length||0} · Maria: ${byFSE.Maria?.length||0} · Kai: ${byFSE.Kai?.length||0}`),
-      tableFor([...hosts].sort((a,b)=>a.fse.localeCompare(b.fse)||timeSort(a,b)))
-    );
-
-    const vlanCounts = Object.entries(groupBy(hosts,'vlan')).map(([k,v])=>({vlan:k,count:v.length})).sort((a,b)=>a.vlan.localeCompare(b.vlan));
-    const right = el('div',{},
-      el('h3',{style:'margin:0 0 8px;font-size:16px'},'Quick Facts'),
-      el('div',{class:'pill',style:'margin-bottom:8px'}, `Subnets: 255.255.248.0 · DNS: 172.31.3.1 / 172.31.3.2`),
-      el('div',{class:'panel',style:'padding:12px'},
-        el('div',{class:'note',style:'margin-bottom:8px'},'VLAN distribution'),
-        el('div',{}, vlanCounts.map(({vlan,count})=>el('div',{style:'display:flex;justify-content:space-between;margin:6px 0'},
-          el('span',{},`VLAN ${vlan}`), el('span',{class:'chip'}, String(count))
-        )))
-      )
-    );
-
-    headline.append(left,right);
-    view.appendChild(headline);
-  }
-
-  function renderFSE(name){
-    const view = $('#view'); view.innerHTML='';
-    const rows = hosts.filter(h=>h.fse===name).sort(timeSort);
-
-    // Instructions block
-    view.appendChild(stepsBlock());
-
-    // Filter + table
-    let filtered = rows;
-    const onFilter = (q)=>{
-      filtered = !q?rows: rows.filter(r=>Object.values(r).join(' ').toLowerCase().includes(q));
-      tableWrap.innerHTML='';
-      tableWrap.appendChild(tableFor(filtered));
+    function parseTime(t){
+      // Interpret as post‑noon times: 12:00 → 12:00, 1:00 → 13:00, 2:45 → 14:45
+      const [hh, mm] = t.split(":").map(Number);
+      const h24 = (hh===12?12:12+hh);
+      return h24*60 + (mm||0);
     }
-    view.appendChild(searchBox(onFilter));
 
-    const tableWrap = el('div',{class:'panel'});
-    tableWrap.appendChild(tableFor(filtered));
+    function el(tag, attrs={}, inner=""){const n=document.createElement(tag);Object.entries(attrs).forEach(([k,v])=>{if(k==='dataset'){Object.entries(v).forEach(([dk,dv])=>n.dataset[dk]=dv)}else if(k==='html'){n.innerHTML=v}else if(k==='text'){n.textContent=v}else n.setAttribute(k,v)}); if(inner) n.innerHTML=inner; return n}
 
-    const header = el('div',{style:'display:flex;justify-content:space-between;align-items:center;margin:6px 0 0'},
-      el('h2',{style:'margin:0;font-size:18px'}, `${name} · Assigned Hosts`),
-      el('div',{}, badge(`Total: ${rows.length}`))
-    );
+    function renderSteps(targetId){
+      const ol = document.getElementById(targetId);
+      ol.innerHTML = steps.map(s=>`<li>${s}</li>`).join("");
+      const copyBtn = el('button',{class:'btn',id:`copy-${targetId}`,'aria-label':'Copy steps as text'},'Copy instructions');
+      ol.parentElement.insertAdjacentElement('afterend', copyBtn);
+      copyBtn.addEventListener('click',()=>{
+        const txt = steps.map((s,i)=>`${i+1}. ${s.replace(/<[^>]+>/g,'')}`).join('\n');
+        navigator.clipboard.writeText(txt);copyBtn.textContent='Copied!';setTimeout(()=>copyBtn.textContent='Copy instructions',1200)
+      });
+    }
 
-    view.appendChild(header);
-    view.appendChild(tableWrap);
+    function rowCells(h){
+      const vlanChip = `<span class="chip" data-vlan="${h.vlan}" title="VLAN ${h.vlan}">VLAN ${h.vlan}</span>`;
+      const btn = `<div class="row-actions"><button class="btn small" data-copy='${encodeURIComponent(JSON.stringify(h))}'>Copy row</button></div>`;
+      return [h.fse,h.start,h.level,`<strong class="nowrap">${h.host}</strong>`,h.ip,h.mask,h.gw,vlanChip,h.dns1,h.dns2,btn];
+    }
 
-    // Footnote
-    view.appendChild(el('div',{class:'note',style:'margin-top:10px'}, 'Passwords (case‑sensitive): Config “WCX3TCg)”; FE login “FE+Sup42p0rt!”.'));
-  }
+    function toTDs(labels, values){
+      return values.map((v,i)=>`<td data-label="${labels[i]}">${v}</td>`).join('');
+    }
 
-  function activate(name){
-    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
-    [...document.querySelectorAll('.tab-btn')].find(b=>b.textContent.trim().startsWith(name)).classList.add('active');
-    if(name==='Summary') renderSummary(); else renderFSE(name);
-  }
+    function fillTable(tbody, rows, labels){
+      tbody.innerHTML = rows.map(h=>`<tr>${toTDs(labels, rowCells(h).slice(1))}</tr>`).join('');
+      // Attach copy handlers
+      tbody.querySelectorAll('button[data-copy]').forEach(btn=>{
+        btn.addEventListener('click',()=>{
+          const h = JSON.parse(decodeURIComponent(btn.getAttribute('data-copy')));
+          const txt = `Host ${h.host}\nFSE ${h.fse}\nStart ${h.start}\nLevel ${h.level}\nIP ${h.ip}\nMask ${h.mask}\nGW ${h.gw}\nVLAN ${h.vlan}\nDNS ${h.dns1}, ${h.dns2}`;
+          navigator.clipboard.writeText(txt); btn.textContent='Copied!'; setTimeout(()=>btn.textContent='Copy row',1200)
+        })
+      })
+    }
 
-  // Init
-  renderTabs();
-  activate('Summary');
+    function renderKPIs(){
+      const total = data.length;
+      const byFSE = Array.from(data.reduce((m,h)=>m.set(h.fse,(m.get(h.fse)||0)+1), new Map()).entries())
+      const byVLAN = Array.from(data.reduce((m,h)=>m.set(h.vlan,(m.get(h.vlan)||0)+1), new Map()).entries())
+      const byLevel = Array.from(data.reduce((m,h)=>m.set(h.level,(m.get(h.level)||0)+1), new Map()).entries())
+      const fmt = (arr,label)=>`<div class="card"><h3>${label}</h3><div>${arr.map(([k,v])=>`<div><span class="muted">${k}</span> — <b>${v}</b></div>`).join("")}</div></div>`;
+      const kpis = `
+        <div class="card"><h3>Total Hosts</h3><div class="kpi">${total}</div><div class="muted small">Across all tabs</div></div>
+        <div class="card"><h3>By FSE</h3><div>${byFSE.map(([k,v])=>`<div><b>${k}</b> — <span>${v}</span></div>`).join("")}</div></div>
+        <div class="card"><h3>By VLAN</h3><div>${byVLAN.map(([k,v])=>`<div><span class="chip" data-vlan="${k}">VLAN ${k}</span> — <b>${v}</b></div>`).join("")}</div></div>
+        <div class="card"><h3>By Level</h3><div>${byLevel.map(([k,v])=>`<div><b>${k}</b> — <span>${v}</span></div>`).join("")}</div></div>`;
+      document.getElementById('kpi-cards').innerHTML = kpis;
+    }
+
+    function renderAll(){
+      // Summary table
+      const labelsAll = ["FSE","Start","Level","Host Name","IP","Mask","Gateway","VLAN","DNS1","DNS2","Action"];
+      const all = [...data].sort((a,b)=> by('fse')(a,b) || by('time')(a,b) || by('host')(a,b));
+      const tbodyAll = document.querySelector('#allHostsTable tbody');
+      tbodyAll.innerHTML = all.map(h=>`<tr>${toTDs(labelsAll, rowCells(h))}</tr>`).join('');
+      // Copy all
+      document.getElementById('copyAll').addEventListener('click',()=>{
+        const txt = all.map(h=>`${h.fse}\t${h.start}\t${h.level}\t${h.host}\t${h.ip}\t${h.mask}\t${h.gw}\t${h.vlan}\t${h.dns1}\t${h.dns2}`).join('\n');
+        navigator.clipboard.writeText(txt); const b=document.getElementById('copyAll'); b.textContent='Copied!'; setTimeout(()=>b.textContent='Copy table',1200)
+      });
+
+      // Per‑FSE tables
+      const labels = ["Start","Level","Host Name","IP","Mask","Gateway","VLAN","DNS1","DNS2","Action"];
+      const groups = {
+        Ryan: data.filter(d=>d.fse==='Ryan').sort(by('time')),
+        Maria: data.filter(d=>d.fse==='Maria').sort(by('time')),
+        Kai: data.filter(d=>d.fse==='Kai').sort(by('time')),
+      };
+      fillTable(document.querySelector('#table-ryan tbody'), groups.Ryan, labels);
+      fillTable(document.querySelector('#table-maria tbody'), groups.Maria, labels);
+      fillTable(document.querySelector('#table-kai tbody'), groups.Kai, labels);
+
+      // Filters
+      const doFilter = (scope, q)=>{
+        const rows = document.querySelectorAll(`#table-${scope} tbody tr`);
+        rows.forEach(r=>{
+          r.style.display = r.textContent.toLowerCase().includes(q.toLowerCase()) ? '' : 'none';
+        });
+      };
+      document.querySelectorAll('input[data-scope]').forEach(inp=>{
+        inp.addEventListener('input', e=> doFilter(e.target.dataset.scope, e.target.value));
+      });
+      document.getElementById('globalSearch').addEventListener('input', e=>{
+        const q = e.target.value.toLowerCase();
+        document.querySelectorAll('#allHostsTable tbody tr').forEach(r=>{
+          r.style.display = r.textContent.toLowerCase().includes(q) ? '' : 'none';
+        })
+      });
+    }
+
+    function tabs(){
+      const buttons=[...document.querySelectorAll('.tab-btn')];
+      buttons.forEach(btn=>btn.addEventListener('click',()=>{
+        buttons.forEach(b=>b.setAttribute('aria-selected','false'));
+        btn.setAttribute('aria-selected','true');
+        document.querySelectorAll('[role="tabpanel"]').forEach(p=>p.hidden=true);
+        document.getElementById(btn.getAttribute('aria-controls')).hidden=false;
+      }))
+    }
+
+    function init(){
+      // date
+      const d = new Date();
+      document.getElementById('lastUpdated').textContent = d.toLocaleString();
+      // steps cloned per FSE
+      renderSteps('steps-ryan');
+      renderSteps('steps-maria');
+      renderSteps('steps-kai');
+      // content
+      renderKPIs();
+      renderAll();
+      tabs();
+    }
+
+    init();
   </script>
 </body>
 </html>
